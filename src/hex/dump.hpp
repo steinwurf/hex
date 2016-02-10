@@ -13,10 +13,8 @@
 #include <sak/storage.hpp>
 
 
-namespace h3x
+namespace hex
 {
-    /// @ingroup trace
-    ///
     /// @brief Small class which wraps a storage object and
     ///        provides an output stream operator to print the content
     ///        of that object as a hexdump.
@@ -63,8 +61,6 @@ namespace h3x
         uint32_t m_max_size;
     };
 
-    /// @ingroup trace
-    ///
     /// The actual output operator which prints the storage buffer to
     /// the choosen output stream.
     ///

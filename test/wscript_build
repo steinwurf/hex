@@ -4,5 +4,5 @@
 bld.program(
     features='cxx test',
     source=bld.path.ant_glob('**/*.cpp'),
-    target='h3x_tests',
-    use=['h3x', 'gtest'])
+    target='hex_tests',
+    use=['hex', 'gtest'])
