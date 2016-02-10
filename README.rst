@@ -1,13 +1,11 @@
 =======
-condian
+hexdump
 =======
 
-condian is a small C++ header only library for endian conversion.
+hexdump is a small header only library for printing the content of a object as a hex dump
 
 .. contents:: Table of Contents:
    :local:
 
 Usage
 =====
-
-Here is how you use it...
