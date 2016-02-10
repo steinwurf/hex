@@ -50,7 +50,7 @@ def build(bld):
         'STEINWURF_CONDIAN_VERSION="{}"'.format(
             VERSION))
 
-    bld.recurse('src/hexdump')
+    bld.recurse('src/h3x')
 
     if bld.is_toplevel():
 

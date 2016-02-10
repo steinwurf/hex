@@ -13,7 +13,7 @@
 #include <sak/storage.hpp>
 
 
-namespace hexdump
+namespace h3x
 {
     /// @ingroup trace
     ///
@@ -34,10 +34,10 @@ namespace hexdump
     /// 0000  be 40 04 71 45 XXX cd 90 e5 51 31  .@.qE XXX ...Q1
     /// 0010  9d 41 4f 37 05 XXX a9 d5 1e c7 93  .AO7. XXX .....
     /// @endcode
-    struct hexdump
+    struct dump
     {
         /// @param storage The storage object which we want to dump
-        hexdump(const sak::const_storage& storage) :
+        dump(const sak::const_storage& storage) :
             m_storage(storage),
             m_max_size(storage.m_size)
         {
@@ -74,7 +74,7 @@ namespace hexdump
     ///        that should be printed
     ///
     /// @return the used output stream
-    inline std::ostream& operator<<(std::ostream& out, const hexdump& hex)
+    inline std::ostream& operator<<(std::ostream& out, const dump& hex)
     {
         const uint8_t* data = hex.m_storage.m_data;
         uint32_t size = std::min(hex.m_storage.m_size, hex.m_max_size);

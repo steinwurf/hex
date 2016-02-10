@@ -3,7 +3,7 @@
 bld.stlib(
     features='cxx',
     source=bld.path.ant_glob('**/*.cpp'),
-    target='hexdump',
+    target='h3x',
     use=['sak_includes'],
     export_includes=['..']
 )

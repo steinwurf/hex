@@ -3,7 +3,7 @@
 //
 // Distributed under the "BSD License". See the accompanying LICENSE.rst file.
 
-#include <hexdump/hexdump.hpp>
+#include <h3x/dump.hpp>
 
 #include <sstream>
 #include <gtest/gtest.h>
@@ -14,7 +14,7 @@ TEST(test_hexdump, api)
     {
         std::string test = "hellohellohelloo";
 
-        hexdump::hexdump hex(sak::storage(test));
+        h3x::dump hex(sak::storage(test));
 
         std::stringstream ss;
 
@@ -29,7 +29,7 @@ TEST(test_hexdump, api)
             { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
               0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
 
-        hexdump::hexdump hex(sak::storage(data));
+        h3x::dump hex(sak::storage(data));
         std::stringstream ss;
 
         ss << hex;
@@ -45,7 +45,7 @@ TEST(test_hexdump, api)
               0x05, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
               0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
 
-        hexdump::hexdump hex(sak::storage(data));
+        h3x::dump hex(sak::storage(data));
         std::stringstream ss;
 
         ss << hex;
@@ -67,7 +67,7 @@ TEST(test_hexdump, api)
               0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
               0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 
-        hexdump::hexdump hex(sak::storage(data));
+        h3x::dump hex(sak::storage(data));
         hex.set_max_size(5);
 
         std::stringstream ss;
@@ -84,7 +84,7 @@ TEST(test_hexdump, api)
         // 48 bytes
         std::vector<uint8_t> data = { 0x01, 0x02, 0x03, 0x04, 0x05 };
 
-        hexdump::hexdump hex(sak::storage(data));
+        h3x::dump hex(sak::storage(data));
         hex.set_max_size(3);
 
         std::stringstream ss;
