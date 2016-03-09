@@ -37,8 +37,7 @@ Depending on the platform you should see a test binary called ``hex_test`` in (e
 Where ``platform`` is typically either linux, win32 or darwin depending on your operating system
 
 
-
 License
-=====
+-------
 
 hex is available under the BSD license.
