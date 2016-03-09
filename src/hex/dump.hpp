@@ -10,7 +10,7 @@
 #include <ostream>
 #include <iomanip>
 
-#include <sak/storage.hpp>
+#include <storage/storage.hpp>
 
 
 namespace hex
@@ -35,7 +35,7 @@ namespace hex
     struct dump
     {
         /// @param storage The storage object which we want to dump
-        dump(const sak::const_storage& storage) :
+        dump(const storage::const_storage& storage) :
             m_storage(storage),
             m_max_size(storage.m_size)
         {
@@ -55,7 +55,7 @@ namespace hex
         }
 
         /// The storage that should be printed
-        sak::const_storage m_storage;
+        storage::const_storage m_storage;
 
         /// The maximum number of bytes that should be printed
         uint32_t m_max_size;
