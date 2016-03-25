@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-APPNAME = 'condian'
-VERSION = '0.0.0'
+APPNAME = 'hex'
+VERSION = '1.0.0'
 
 import waflib.extras.wurf_options
 
@@ -58,4 +58,3 @@ def build(bld):
         # Only build tests when executed from the top-level wscript,
         # i.e. not when included as a dependency
         bld.recurse('test')
-#        bld.recurse('examples')
