@@ -14,7 +14,7 @@ TEST(test_hexdump, api)
     {
         std::string test = "hellohellohelloo";
 
-        hex::dump hex(storage::storage(test));
+        hex::dump hex((uint8_t*)test.c_str(), test.size());
 
         std::stringstream ss;
 
@@ -29,7 +29,7 @@ TEST(test_hexdump, api)
             { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
               0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
 
-        hex::dump hex(storage::storage(data));
+        hex::dump hex(data.data(), data.size());
         std::stringstream ss;
 
         ss << hex;
@@ -45,7 +45,7 @@ TEST(test_hexdump, api)
               0x05, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
               0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
 
-        hex::dump hex(storage::storage(data));
+        hex::dump hex(data.data(), data.size());
         std::stringstream ss;
 
         ss << hex;
@@ -56,7 +56,10 @@ TEST(test_hexdump, api)
                   "................\n",
                   ss.str());
     }
+}
 
+TEST(test_hexdump, set_size)
+{
     {
         // 48 bytes
         std::vector<uint8_t> data =
@@ -67,8 +70,8 @@ TEST(test_hexdump, api)
               0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
               0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
 
-        hex::dump hex(storage::storage(data));
-        hex.set_max_size(5);
+        hex::dump hex(data.data(), data.size());
+        hex.set_size(5);
 
         std::stringstream ss;
         ss << hex;
@@ -84,8 +87,8 @@ TEST(test_hexdump, api)
         // 48 bytes
         std::vector<uint8_t> data = { 0x01, 0x02, 0x03, 0x04, 0x05 };
 
-        hex::dump hex(storage::storage(data));
-        hex.set_max_size(3);
+        hex::dump hex(data.data(), data.size());
+        hex.set_size(3);
 
         std::stringstream ss;
         ss << hex;

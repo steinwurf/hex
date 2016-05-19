@@ -10,14 +10,11 @@
 #include <ostream>
 #include <iomanip>
 
-#include <storage/storage.hpp>
-
-
 namespace hex
 {
-    /// @brief Small class which wraps a storage object and
+    /// @brief Small class which wraps a pointer and a size and
     ///        provides an output stream operator to print the content
-    ///        of that object as a hexdump.
+    ///        as a hexdump.
     ///
     /// The hexdump format consist of three columns per row of
     /// bytes. The first column is the byte offset of the first byte
@@ -34,46 +31,52 @@ namespace hex
     /// @endcode
     struct dump
     {
-        /// @param storage The storage object which we want to dump
-        dump(const storage::const_storage& storage) :
-            m_storage(storage),
-            m_max_size(storage.m_size)
+        /// @param data The pointer to the data which we want to dump
+        /// @param max_size The maximum size in bytes of the data which we want
+        ///        to dump.
+        dump(const uint8_t* data, uint32_t max_size):
+            m_data(data),
+            m_max_size(max_size),
+            m_size(max_size)
         {
-            assert(m_storage.m_data);
-            assert(m_storage.m_size);
+            assert(m_data);
             assert(m_max_size);
+            assert(m_size);
         }
 
-        /// @param max_size The maximum size in bytes we wish to
-        /// dump. This value can be larger than the storage object
-        /// size but not zero. If max_size is smaller than the storage
-        /// object size then only the max_size bytes will be printed.
-        void set_max_size(uint32_t max_size)
+        /// @param size The size in bytes we wish to dump.
+        /// The actual number of bytes dumped will equal the smallest value of
+        /// either size or the max_size which was given as a parameter to
+        /// the this object's constructor.
+        void set_size(uint32_t size)
         {
-            assert(max_size > 0);
-            m_max_size = max_size;
+            assert(m_size > 0);
+            m_size = size;
         }
 
-        /// The storage that should be printed
-        storage::const_storage m_storage;
+        /// The pointer to the data that should be printed
+        const uint8_t* m_data;
 
-        /// The maximum number of bytes that should be printed
+        /// The maximum number of bytes that can be printed
         uint32_t m_max_size;
+
+        /// The number of bytes that the user wants to print
+        uint32_t m_size;
     };
 
-    /// The actual output operator which prints the storage buffer to
+    /// The actual output operator which prints the data buffer to
     /// the choosen output stream.
     ///
     /// @param out The output stream
     ///
-    /// @param hex The hexdump struct initialized with the storage
+    /// @param hex The hexdump struct initialized with the data and size
     ///        that should be printed
     ///
     /// @return the used output stream
     inline std::ostream& operator<<(std::ostream& out, const dump& hex)
     {
-        const uint8_t* data = hex.m_storage.m_data;
-        uint32_t size = std::min(hex.m_storage.m_size, hex.m_max_size);
+        const uint8_t* data = hex.m_data;
+        uint32_t size = std::min(hex.m_size, hex.m_max_size);
 
         assert(data);
         assert(size > 0);
@@ -124,9 +127,9 @@ namespace hex
 
         s << "  " << buf << std::endl;
 
-        if (size < hex.m_storage.m_size && 16 < hex.m_storage.m_size)
+        if (size < hex.m_max_size && 16 < hex.m_max_size)
         {
-            uint32_t last_row = (hex.m_storage.m_size / 16) * 16;
+            uint32_t last_row = (hex.m_max_size / 16) * 16;
 
             s << "...." << std::endl;
             s << std::setw(4) << last_row << std::endl;
