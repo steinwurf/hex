@@ -7,8 +7,10 @@
 
 #include <cassert>
 #include <cstdint>
+#include <algorithm>
 #include <ostream>
 #include <iomanip>
+#include <string>
 
 namespace hex
 {
