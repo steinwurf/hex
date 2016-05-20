@@ -6,7 +6,11 @@ every change, see the Git log.
 
 Latest
 ------
-* Major: Removed dependency on storage to ease reuseability.
+* tbd
+
+2.0.0
+-----
+* Major: Removed dependency on storage to ease  reuseability.
 
 1.0.0
 -----
