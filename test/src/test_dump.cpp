@@ -9,7 +9,7 @@
 #include <gtest/gtest.h>
 
 
-TEST(test_hexdump, api)
+TEST(test_dump, api)
 {
     {
         std::string test = "hellohellohelloo";
@@ -62,7 +62,7 @@ TEST(test_hexdump, api)
     }
 }
 
-TEST(test_hexdump, set_size)
+TEST(test_dump, set_size)
 {
     {
         // 48 bytes
