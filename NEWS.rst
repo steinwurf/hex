@@ -6,6 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+3.0.0
+-----
 * Major: Correct use flag from ``hex`` to ``hex_includes``.
 * Patch: Fix naming of test files.
 
