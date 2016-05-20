@@ -4,6 +4,5 @@ bld.stlib(
     features='cxx',
     source=bld.path.ant_glob('**/*.cpp'),
     target='hex',
-    use=['storage'],
     export_includes=['..']
 )
