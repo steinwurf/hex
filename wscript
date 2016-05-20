@@ -46,7 +46,9 @@ def build(bld):
         'STEINWURF_CONDIAN_VERSION="{}"'.format(
             VERSION))
 
-    bld.recurse('src/hex')
+    bld(name='hex_includes',
+        includes='./src',
+        export_includes='./src')
 
     if bld.is_toplevel():
 

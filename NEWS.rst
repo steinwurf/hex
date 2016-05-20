@@ -6,6 +6,7 @@ every change, see the Git log.
 
 Latest
 ------
+* Major: Correct use flag from ``hex`` to ``hex_includes``.
 * Patch: Fix naming of test files.
 
 2.0.0
