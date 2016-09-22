@@ -36,7 +36,7 @@ namespace hex
         /// @param data The pointer to the data which we want to dump
         /// @param max_size The maximum size in bytes of the data which we want
         ///        to dump.
-        dump(const uint8_t* data, uint32_t max_size):
+        dump(const uint8_t* data, uint32_t max_size) :
             m_data(data),
             m_max_size(max_size),
             m_size(max_size)
