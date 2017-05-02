@@ -9,8 +9,10 @@
 #include <cstdint>
 #include <algorithm>
 #include <ostream>
+#include <sstream>
 #include <iomanip>
 #include <string>
+#include <vector>
 
 namespace hex
 {
@@ -46,6 +48,18 @@ struct dump
         assert(m_size);
     }
 
+    template<class PodType, class Allocator>
+    dump(const std::vector<PodType, Allocator>& vector)
+    {
+        m_size = uint32_t(vector.size() * sizeof(PodType));
+        m_max_size = m_size;
+        m_data = reinterpret_cast<const uint8_t*>(&vector[0]);
+
+        assert(m_data);
+        assert(m_max_size);
+        assert(m_size);
+    }
+
     /// @param size The size in bytes we wish to dump.
     /// The actual number of bytes dumped will equal the smallest value of
     /// either size or the max_size which was given as a parameter to
@@ -65,6 +79,40 @@ struct dump
     /// The number of bytes that the user wants to print
     uint32_t m_size;
 };
+
+
+inline std::vector<uint8_t> parse_hex_string(const std::string& hex_string)
+{
+    std::vector<uint8_t> result;
+    std::istringstream in(hex_string);
+    in >> std::hex;
+
+    uint32_t value;
+    while (in >> value)
+    {
+        assert(value <= 255U && "Invalid hex byte in string");
+        result.push_back(static_cast<uint8_t>(value));
+    }
+
+    return result;
+}
+
+inline bool operator==(const dump& a, const dump& b)
+{
+    if (a.m_size != b.m_size)
+    {
+        return false;
+    }
+
+    // They have the same size - do they point to the same data?
+    if (a.m_data == b.m_data)
+    {
+        return true;
+    }
+
+    // It is two different buffers - is the content equal?
+    return std::equal(a.m_data, a.m_data + a.m_size, b.m_data);
+}
 
 /// The actual output operator which prints the data buffer to
 /// the choosen output stream.
