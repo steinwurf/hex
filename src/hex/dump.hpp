@@ -48,6 +48,7 @@ struct dump
         assert(m_size);
     }
 
+    /// @param vector The vector instance which we want to dump
     template<class PodType, class Allocator>
     dump(const std::vector<PodType, Allocator>& vector)
     {
@@ -80,7 +81,12 @@ struct dump
     uint32_t m_size;
 };
 
-
+/// Helper function to convert a hexadecimal string to an equivalent byte
+/// vector. For example, the string "ff 02 03 04" is converted to a
+/// std::vector<uint8_t> containing { 0xff, 0x02, 0x03, 0x04 }.
+///
+/// @param hex_string The input string of hexadecimal characters
+/// @return The byte vector created from the string representation
 inline std::vector<uint8_t> parse_hex_string(const std::string& hex_string)
 {
     std::vector<uint8_t> result;
@@ -97,6 +103,13 @@ inline std::vector<uint8_t> parse_hex_string(const std::string& hex_string)
     return result;
 }
 
+/// Compares two hex::dump objects to see whether they are
+/// equal, i.e. they contain exactly the same data.
+///
+/// @param a The first hex::dump object
+/// @param b The second hex::dump object
+/// @return True if the hex::dump objects contain the same data,
+///         otherwise false.
 inline bool operator==(const dump& a, const dump& b)
 {
     if (a.m_size != b.m_size)
