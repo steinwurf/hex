@@ -7,6 +7,9 @@ every change, see the Git log.
 Latest
 ------
 * tbd
+* Minor: Added a constructor to create a hex::dump object from std::vector.
+* Minor: Added the parse_hex_string helper function to create a byte vector
+from a hexadecimal string representation.
 
 4.0.0
 -----
@@ -20,7 +23,7 @@ Latest
 
 2.0.0
 -----
-* Major: Removed dependency on storage to ease  reuseability.
+* Major: Removed dependency on storage to ease reuseability.
 
 1.0.0
 -----
