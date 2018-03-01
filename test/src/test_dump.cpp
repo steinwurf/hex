@@ -99,11 +99,10 @@ TEST(test_dump, set_prefix_postfix)
         std::stringstream ss;
 
         ss << hex;
-
-        EXPECT_EQ(
+        auto expected =
             "0000  0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x68, 0x65, 0x6c, 0x6c, 0x6f, "
-            "                                     hellohello\n",
-                  ss.str());
+            "                                     hellohello\n";
+        EXPECT_EQ(expected, ss.str());
     }
     {
         std::vector<uint8_t> data =
