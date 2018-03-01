@@ -183,8 +183,7 @@ inline std::ostream& operator<<(std::ostream& out, const dump& hex)
 
     for (uint32_t i = 0; i < size; ++i)
     {
-        bool at_beginning = (i % 16) == 0;
-        if (at_beginning)
+        if ((i % 16) == 0)
         {
             if (i != 0)
             {
@@ -200,11 +199,11 @@ inline std::ostream& operator<<(std::ostream& out, const dump& hex)
         buf += (0x20 <= c && c <= 0x7e) ? c : '.';
     }
 
-    if (size % 16)
+    if (size % 16 != 0)
     {
         // If size if not a multiple of 16 there will be some empty
-        // columns in our print out. The remainder i.e. 16 - (size %
-        // 16) e.g. for some basic cases:
+        // columns in our print out. The remainder i.e. 16 - (size % 1&)
+        // e.g. for some basic cases:
         //
         // size = 15
         // remainder = 16 - (15 % 16) = 1
