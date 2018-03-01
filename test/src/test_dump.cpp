@@ -15,7 +15,6 @@ TEST(test_dump, api)
         std::string test = "hellohellohelloo";
 
         hex::dump hex((uint8_t*)test.c_str(), test.size());
-
         std::stringstream ss;
 
         ss << hex;
@@ -72,6 +71,64 @@ TEST(test_dump, api)
 
         EXPECT_EQ(data1, data2);
         EXPECT_EQ(hex, hex::dump(data2));
+    }
+}
+
+TEST(test_dump, set_prefix_postfix)
+{
+    {
+        std::string test = "hellohellohelloo";
+
+        hex::dump hex((uint8_t*)test.c_str(), test.size());
+        hex.set_prefix("0x");
+        hex.set_postfix(", ");
+        std::stringstream ss;
+
+        ss << hex;
+
+        EXPECT_EQ("0000  0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x68, 0x65, 0x6c, 0x6c, "
+                  "0x6f, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x6f,  "
+                  "hellohellohelloo\n", ss.str());
+    }
+    {
+        std::string test = "hellohello";
+
+        hex::dump hex((uint8_t*)test.c_str(), test.size());
+        hex.set_prefix("0x");
+        hex.set_postfix(", ");
+        std::stringstream ss;
+
+        ss << hex;
+
+        EXPECT_EQ(
+            "0000  0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x68, 0x65, 0x6c, 0x6c, 0x6f, "
+            "                                     hellohello\n",
+                  ss.str());
+    }
+    {
+        std::vector<uint8_t> data =
+            {
+                0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+                0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+                0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+            };
+        hex::dump hex(data);
+        hex.set_prefix("0x");
+        hex.set_postfix(", ");
+        std::stringstream ss;
+
+        ss << hex;
+
+        auto expected =
+            "0000  "
+            "0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, "
+            "0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, "
+            " ................\n"
+            "0010  "
+            "0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, "
+            "                                                 ........\n";
+
+        EXPECT_EQ(expected, ss.str());
     }
 }
 

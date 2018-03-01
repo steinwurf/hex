@@ -6,7 +6,10 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Patch: Made ``hex::m_data``, ``hex::m_size`` , ``hex::m_max_size`` fields
+  private.
+* Minor: Added ``set_prefix`` and ``set_postfix`` methods to configure how the
+  hex representation is printed.
 
 4.1.1
 -----
@@ -14,8 +17,9 @@ Latest
 
 4.1.0
 -----
-* Minor: Added a constructor to create a hex::dump object from std::vector.
-* Minor: Added the parse_hex_string helper function to create a byte vector
+* Minor: Added a constructor to create a ``hex::dump`` object from
+  ``std::vector``.
+* Minor: Added the ``parse_hex_string`` helper function to create a byte vector
   from a hexadecimal string representation.
 
 4.0.0

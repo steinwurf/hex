@@ -33,15 +33,22 @@ namespace hex
 /// 0000  be 40 04 71 45 XXX cd 90 e5 51 31  .@.qE XXX ...Q1
 /// 0010  9d 41 4f 37 05 XXX a9 d5 1e c7 93  .AO7. XXX .....
 /// @endcode
-struct dump
+class dump
 {
+    // befriend operators
+    friend std::ostream& operator<<(std::ostream& out, const dump& hex);
+    friend bool operator==(const dump& a, const dump& b);
+
+public:
     /// @param data The pointer to the data which we want to dump
     /// @param max_size The maximum size in bytes of the data which we want
     ///        to dump.
     dump(const uint8_t* data, uint32_t max_size) :
         m_data(data),
         m_max_size(max_size),
-        m_size(max_size)
+        m_size(max_size),
+        m_prefix(),
+        m_postfix(" ")
     {
         assert(m_data);
         assert(m_max_size);
@@ -50,15 +57,28 @@ struct dump
 
     /// @param vector The vector instance which we want to dump
     template<class PodType, class Allocator>
-    dump(const std::vector<PodType, Allocator>& vector)
+    dump(const std::vector<PodType, Allocator>& vector) :
+        m_data(vector.data()),
+        m_max_size(uint32_t(vector.size() * sizeof(PodType))),
+        m_size(m_max_size),
+        m_prefix(),
+        m_postfix(" ")
     {
-        m_size = uint32_t(vector.size() * sizeof(PodType));
-        m_max_size = m_size;
-        m_data = reinterpret_cast<const uint8_t*>(&vector[0]);
-
         assert(m_data);
         assert(m_max_size);
         assert(m_size);
+    }
+
+    /// @param prefix The prefix to insert before each element.
+    void set_prefix(const std::string& prefix)
+    {
+        m_prefix = prefix;
+    }
+
+    /// @param postfix The prefix to insert after each element.
+    void set_postfix(const std::string& postfix)
+    {
+        m_postfix = postfix;
     }
 
     /// @param size The size in bytes we wish to dump.
@@ -71,14 +91,22 @@ struct dump
         m_size = size;
     }
 
+private:
+
     /// The pointer to the data that should be printed
     const uint8_t* m_data;
 
     /// The maximum number of bytes that can be printed
-    uint32_t m_max_size;
+    const uint32_t m_max_size;
 
     /// The number of bytes that the user wants to print
     uint32_t m_size;
+
+    /// The prefix to be inserted before each element
+    std::string m_prefix;
+
+    /// The postfix to be inserted after each element
+    std::string m_postfix;
 };
 
 /// Helper function to convert a hexadecimal string to an equivalent byte
@@ -140,6 +168,8 @@ inline std::ostream& operator<<(std::ostream& out, const dump& hex)
 {
     const uint8_t* data = hex.m_data;
     uint32_t size = std::min(hex.m_size, hex.m_max_size);
+    std::string prefix = hex.m_prefix;
+    std::string postfix = hex.m_postfix;
 
     assert(data);
     assert(size > 0);
@@ -153,19 +183,20 @@ inline std::ostream& operator<<(std::ostream& out, const dump& hex)
 
     for (uint32_t i = 0; i < size; ++i)
     {
-        if ((i % 16) == 0)
+        bool at_beginning = (i % 16) == 0;
+        if (at_beginning)
         {
-            if (i)
+            if (i != 0)
             {
-                s << "  " << buf << std::endl;
+                s << " " << buf << std::endl;
                 buf.clear();
             }
-            s << std::setw(4) << i << ' ';
+            s << std::setw(4) << i << "  ";
         }
 
         uint8_t c = data[i];
-
-        s << ' ' << std::setw(2) << (uint32_t) c;
+        s << prefix << std::setw(2) << (uint32_t) c << postfix;
+        // write the charater if it's writeable, otherwise write a "."
         buf += (0x20 <= c && c <= 0x7e) ? c : '.';
     }
 
@@ -185,10 +216,11 @@ inline std::ostream& operator<<(std::ostream& out, const dump& hex)
         uint32_t remainder = 16 - (size % 16);
 
         // We add 3 space for each missing character in the output
-        s << std::string(3 * remainder, ' ');
+        auto element_size = (2 + prefix.length() + postfix.length());
+        s << std::string(element_size * remainder, ' ');
     }
 
-    s << "  " << buf << std::endl;
+    s << " " << buf << std::endl;
 
     if (size < hex.m_max_size && 16 < hex.m_max_size)
     {
