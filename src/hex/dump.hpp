@@ -46,9 +46,7 @@ public:
     dump(const uint8_t* data, uint32_t max_size) :
         m_data(data),
         m_max_size(max_size),
-        m_size(max_size),
-        m_prefix(),
-        m_postfix(" ")
+        m_size(max_size)
     {
         assert(m_data);
         assert(m_max_size);
@@ -58,16 +56,8 @@ public:
     /// @param vector The vector instance which we want to dump
     template<class PodType, class Allocator>
     dump(const std::vector<PodType, Allocator>& vector) :
-        m_data(vector.data()),
-        m_max_size(uint32_t(vector.size() * sizeof(PodType))),
-        m_size(m_max_size),
-        m_prefix(),
-        m_postfix(" ")
-    {
-        assert(m_data);
-        assert(m_max_size);
-        assert(m_size);
-    }
+        dump(vector.data(), (uint32_t) vector.size()*sizeof(PodType))
+    { }
 
     /// @param prefix The prefix to insert before each element.
     void set_prefix(const std::string& prefix)
@@ -103,10 +93,10 @@ private:
     uint32_t m_size;
 
     /// The prefix to be inserted before each element
-    std::string m_prefix;
+    std::string m_prefix = "";
 
     /// The postfix to be inserted after each element
-    std::string m_postfix;
+    std::string m_postfix = " ";
 };
 
 /// Helper function to convert a hexadecimal string to an equivalent byte
