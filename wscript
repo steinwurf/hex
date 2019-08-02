@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 APPNAME = 'hex'
-VERSION = '4.1.1'
+VERSION = '4.2.0'
 
 
 def build(bld):
