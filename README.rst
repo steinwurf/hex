@@ -13,8 +13,8 @@ in your CMake build script:
 
 ::
 
-   add_subdirectory("/path/to/bourne" bourne)
-   target_link_libraries(<my_target> steinwurf::bourne)
+   add_subdirectory("/path/to/hex" hex)
+   target_link_libraries(<my_target> steinwurf::hex)
 
 Where ``<my_target>`` is replaced by your target.
 
