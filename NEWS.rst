@@ -6,7 +6,7 @@ every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Minor: Added install step to CMake.
 
 4.4.0
 -----
@@ -14,11 +14,11 @@ Latest
 
 4.3.0
 -----
-* Minor: Improve cmake build file.
+* Minor: Improve CMake build file.
 
 4.2.0
 -----
-* Minor: Added cmake support.
+* Minor: Added CMake support.
 
 4.1.1
 -----
