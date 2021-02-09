@@ -1,11 +1,15 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 project(hex)
 
-file(GLOB hex_headers ./src/hex/*.hpp)
-
+# Define library
 add_library(hex INTERFACE)
+target_compile_features(hex INTERFACE cxx_std_14)
+target_include_directories(hex INTERFACE src/)
 add_library(steinwurf::hex ALIAS hex)
 
-target_include_directories(hex INTERFACE src/)
-
-install(FILES ${hex_headers} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/hex)
+# Install headers
+install(
+  DIRECTORY ./src/hex
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+  FILES_MATCHING
+  PATTERN *.hpp)
